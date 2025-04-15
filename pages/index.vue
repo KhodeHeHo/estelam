@@ -238,25 +238,25 @@ const route = useRoute();
 const token = route.query.token;
 const userInfo = ref(null);
 
-// onMounted(async () => {
-//   if (!token) {
-    // snackbar.value = "لینک معتبر نیست.";
-//     return;
-//   }
+onMounted(async () => {
+  if (!token) {
+    snackbar.value = "لینک معتبر نیست.";
+    return;
+  }
 
-//   try {
-//     const res = await $fetch("/api/get-user-info?token=${token}");
-//     if (res && res.xlink) {
-//       userInfo.value = res;
-//     } else {
-      // snackbar.value = res.error || "کاربر یافت نشد.";
-//       alreadySubmitted.value = true;
-//     }
-//   } catch (err) {
-//     console.error(err);
-    // snackbar.value = "خطا در دریافت اطلاعات";
-//   }
-// });
+  try {
+    const res = await $fetch("/api/get-user-info?token=${token}");
+    if (res && res.xlink) {
+      userInfo.value = res;
+    } else {
+      snackbar.value = res.error || "کاربر یافت نشد.";
+      alreadySubmitted.value = true;
+    }
+  } catch (err) {
+    console.error(err);
+    snackbar.value = "خطا در دریافت اطلاعات";
+  }
+});
 
 const enterForm = () => {
   show.value = false;
