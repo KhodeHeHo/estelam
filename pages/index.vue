@@ -69,7 +69,7 @@
                       v-model="dialogData.delivery"
                     />
                     <v-text-field
-                      label="برند (اختیاری)"
+                      label="برند "
                       prepend-icon="mdi-file-cabinet"
                       v-model="dialogData.brand"
                     />
@@ -94,7 +94,7 @@
             </v-row>
             <v-container>
               <v-list
-                class="mt-1 bg-grey-lighten-3 rounded-xl"
+                class="mt-1 bg-grey-lighten-3 rounded-xl "
                 max-height="150"
               >
                 <v-list-item
@@ -136,8 +136,6 @@
                 >ثبت نهایی</v-btn
               >
             </div>
-
-            <div class="text-red mt-3" v-if="message">{{ message }}</div>
           </div>
           <!-- پیام بعد از ثبت موفق -->
           <div v-if="alreadySubmitted">
@@ -158,18 +156,10 @@
     </v-btn>
     <v-snackbar
       v-model="snackbar"
+      :timeout="timeout"
+      color="red"
     >
-      {{ text }}
-
-      <template v-slot:actions>
-        <v-btn
-          color="pink"
-          variant="text"
-          @click="snackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
+      {{ snackbar }}
     </v-snackbar>
   </div>
 </template>
@@ -184,7 +174,9 @@ const notshow = ref(false);
 const showmenu = ref(false);
 const alreadySubmitted = ref(false);
 const checkbox = ref(false);
-const message = ref("");
+
+const snackbar =ref(false)
+const timeout = ref(2000)
 
 const dialog = ref(false);
 const selectedItem = ref({});
@@ -248,7 +240,7 @@ const userInfo = ref(null);
 
 // onMounted(async () => {
 //   if (!token) {
-//     message.value = "لینک معتبر نیست.";
+    // snackbar.value = "لینک معتبر نیست.";
 //     return;
 //   }
 
@@ -257,12 +249,12 @@ const userInfo = ref(null);
 //     if (res && res.xlink) {
 //       userInfo.value = res;
 //     } else {
-//       message.value = res.error || "کاربر یافت نشد.";
+      // snackbar.value = res.error || "کاربر یافت نشد.";
 //       alreadySubmitted.value = true;
 //     }
 //   } catch (err) {
 //     console.error(err);
-//     message.value = "خطا در دریافت اطلاعات";
+    // snackbar.value = "خطا در دریافت اطلاعات";
 //   }
 // });
 
@@ -275,7 +267,7 @@ const enterForm = () => {
 const submitForm = async () => {
   if (!checkbox.value) {
     console.log("چک‌باکس تیک نخورده!");
-    message.value = "لطفاً قبل از ثبت، چک‌باکس را تیک بزنید.";
+    snackbar.value = "لطفاً قبل از ثبت، چک‌باکس را تیک بزنید.";
     
     return;
   }
@@ -303,14 +295,14 @@ const submitForm = async () => {
     console.log("پاسخ ثبت:", res);
 
     if (res.message) {
-      message.value = res.message;
+      snackbar.value = res.message;
       alreadySubmitted.value = true;
     } else {
-      message.value = res.error || "مشکلی در ثبت اطلاعات رخ داده";
+      snackbar.value = res.error || "مشکلی در ثبت اطلاعات رخ داده";
     }
   } catch (error) {
-    // console.error("خطا در ارسال:", error);
-    // message.value = "خطا در ارسال اطلاعات";
+    console.error("خطا در ارسال:", error);
+    snackbar.value = "خطا در ارسال اطلاعات";
   }
   alreadySubmitted.value=true
     show.value = false;
